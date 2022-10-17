@@ -123,7 +123,7 @@ def main():
             #model = tf.keras.models.load_model('model.h5', compile=False)
             #Don’t delete or rename the sep_5.h5 file from your repo, as we’re using its url to download your model in Step 1        
             retrain_model = tf.keras.models.load_model('model.h5')        
-            es_callbacks=[tf.keras.callbacks.EarlyStopping(patience=0, verbose=1)]
+            es_callbacks=[tf.keras.callbacks.EarlyStopping(patience=6, verbose=1)]
             opt = tf.keras.optimizers.Adam(1e-3)
             # compile the model
             retrain_model.compile(optimizer=opt, loss='categorical_crossentropy', metrics=['accuracy'])
@@ -169,8 +169,9 @@ if not os.path.isfile('my_model.h5'):
 # model = models.load_model(classifier_model, compile=False, custom_objects={'KerasLayer': hub.KerasLayer})
 model = tf.keras.models.load_model(classifier_model)
 
+#Workaround step for retrained_Streamlit_model.h5
 if not os.path.isfile('retrained_Streamlit_model.h5'):
-        retrain_model = urllib.request.urlretrieve('https://github.com/ankan-mazumdar/Active-Learning2/blob/main/my_model.h5?raw=true', 'retrained_Streamlit_model.h5')
+        retrain_model = urllib.request.urlretrieve('https://github.com/ankan-mazumdar/Active-Learning2/blob/main/retrained_X_test100_79_model.h5?raw=true', 'retrained_Streamlit_model.h5')
 else:
         retrain_model = tf.keras.models.load_model('retrained_Streamlit_model.h5')     
 def predict_retrain(image):
