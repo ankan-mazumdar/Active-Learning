@@ -149,6 +149,8 @@ def main():
             st.error("Please upload images")
             
 classifier_model = 'my_model.h5'
+if not os.path.isfile('my_model.h5'):
+        classifier_model = urllib.request.urlretrieve('https://github.com/ankan-mazumdar/Active-Learning2/blob/main/my_model.h5?raw=true', 'my_model.h5')
 # model = models.load_model(classifier_model, compile=False, custom_objects={'KerasLayer': hub.KerasLayer})
 model = tf.keras.models.load_model(classifier_model)
 retrain_model = tf.keras.models.load_model('retrained_Streamlit_model.h5')
