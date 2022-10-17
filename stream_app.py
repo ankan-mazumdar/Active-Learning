@@ -109,7 +109,11 @@ def main():
         with st.spinner('Model is getting retrained....'):     
             epoch = 20
             #retrain_model = tf.keras.models.load_model('retrained_X_test100_79_model.h5')
-            retrain_model = urllib.request.urlretrieve('https://github.com/ankan-mazumdar/Active-Learning2/blob/main/retrained_X_test100_79_model.h5?raw=true')
+            #if not os.path.isfile('retrained_X_test100_79_model.h5'):
+            retrain_model = urllib.request.urlretrieve('https://github.com/ankan-mazumdar/Active-Learning2/blob/main/retrained_X_test100_79_model.h5?raw=true', 'retrained_X_test100_79_model.h5')
+            print('retrain_model=====',retrain_model)
+            #else:
+                    print('no model.h5 for retraining found') 
             retrain_model = tf.keras.models.load_model(retrain_model)        
             es_callbacks=[tf.keras.callbacks.EarlyStopping(patience=0, verbose=1)]
             opt = tf.keras.optimizers.Adam(1e-3)
