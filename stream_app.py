@@ -1,5 +1,4 @@
-#https://ankan-mazumdar-active-learning2-stream-app-x98qu1.streamlitapp.com/
-#https://github.com/ankan-mazumdar/Active-Learning2
+#https://github.com/ankan-mazumdar/Active-Learning
 from secrets import choice
 import requests
 import numpy as np
@@ -125,8 +124,8 @@ def main():
             @st.experimental_singleton                
             def load_model():
                 if not os.path.isfile('model.h5'):
-                    #urllib.request.urlretrieve('https://github.com/ankan-mazumdar/Active-Learning/raw/main/retrained_X_test100_79_model.h5', 'model.h5')
-                    subprocess.run(['curl --output model.h5 "https://media.githubusercontent.com/media/ankan-mazumdar/Active-Learning/main/retrained_X_test100_79_model.h5"'], shell=True)
+                    urllib.request.urlretrieve('https://github.com/ankan-mazumdar/Active-Learning/raw/main/retrained_X_test100_79_model.h5', 'model.h5')
+                    
                 return tf.keras.models.load_model('model.h5')    
             retrain_model = load_model()
             #predicted=Breccia_Predictions(model)    
