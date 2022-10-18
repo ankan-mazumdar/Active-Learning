@@ -118,14 +118,15 @@ def main():
             #else:
                     #print('no model.h5 for retraining found') 
                     
-            #import subprocess
+            import subprocess
             #if not os.path.isfile('model.h5'):
             #    subprocess.run(['curl --output model.h5 "https://media.githubusercontent.com/media/ankan-mazumdar/Active-Learning/main/retrained_X_test100_79_model.h5"'], shell=True)
             
             @st.experimental_singleton                
             def load_model():
                 if not os.path.isfile('model.h5'):
-                    urllib.request.urlretrieve('https://github.com/ankan-mazumdar/Active-Learning/raw/main/retrained_X_test100_79_model.h5', 'model.h5')
+                    #urllib.request.urlretrieve('https://github.com/ankan-mazumdar/Active-Learning/raw/main/retrained_X_test100_79_model.h5', 'model.h5')
+                    subprocess.run(['curl --output model.h5 "https://media.githubusercontent.com/media/ankan-mazumdar/Active-Learning/main/retrained_X_test100_79_model.h5"'], shell=True)
                 return tf.keras.models.load_model('model.h5')    
             retrain_model = load_model()
             #predicted=Breccia_Predictions(model)    
