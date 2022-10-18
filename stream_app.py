@@ -20,6 +20,7 @@ from keras.utils import image_utils
 from keras import models, layers,preprocessing
 from keras.layers import Conv2D, MaxPooling2D, Flatten , Dense, Activation,Dropout,BatchNormalization
 from keras.utils.vis_utils import plot_model
+import urllib.request  
 
 st.set_page_config(layout="wide")
 st.set_option ('deprecation.showfileUploaderEncoding', False)
@@ -117,14 +118,21 @@ def main():
             #else:
                     #print('no model.h5 for retraining found') 
                     
-            import subprocess
-            if not os.path.isfile('model.h5'):
-                subprocess.run(['curl --output model.h5 "https://media.githubusercontent.com/media/ankan-mazumdar/Active-Learning/main/retrained_X_test100_79_model.h5"'], shell=True)
-                
+            #import subprocess
+            #if not os.path.isfile('model.h5'):
+            #    subprocess.run(['curl --output model.h5 "https://media.githubusercontent.com/media/ankan-mazumdar/Active-Learning/main/retrained_X_test100_79_model.h5"'], shell=True)
+            
+            @st.experimental_singleton                
+            def load_model():
+                if not os.path.isfile('model.h5'):
+                    urllib.request.urlretrieve('https://github.com/ankan-mazumdar/Active-Learning/raw/main/retrained_X_test100_79_model.h5', 'model.h5')
+                return tensorflow.keras.models.load_model('model.h5')    
+            retrain_model = load_model()
+            #predicted=Breccia_Predictions(model)    
             #Replace model = tf.keras.models.load_model('sep_5.h5', compile=False) with:
             #model = tf.keras.models.load_model('model.h5', compile=False)
             #Don’t delete or rename the sep_5.h5 file from your repo, as we’re using its url to download your model in Step 1        
-            retrain_model = tf.keras.models.load_model('model.h5')        
+            #retrain_model = tf.keras.models.load_model('model.h5')        
             es_callbacks=[tf.keras.callbacks.EarlyStopping(patience=6, verbose=1)]
             opt = tf.keras.optimizers.Adam(1e-3)
             # compile the model
@@ -164,7 +172,7 @@ def main():
         #except:
         #    st.error("Please upload images")
 
-import urllib.request            
+          
 classifier_model = 'my_model.h5'
 if not os.path.isfile('my_model.h5'):
         classifier_model = urllib.request.urlretrieve('https://github.com/ankan-mazumdar/Active-Learning/blob/main/my_model.h5?raw=true', 'my_model.h5')
@@ -178,7 +186,8 @@ model = tf.keras.models.load_model(classifier_model)
 #        retrain_model = tf.keras.models.load_model('retrained_Streamlit_model.h5')     
 def predict_retrain(image):
  
-    retrain_model = tf.keras.models.load_model('retrained_Streamlit_model.h5')
+    #retrain_model = tf.keras.models.load_model('retrained_Streamlit_model.h5')
+    retrain_model = load_model()
     test_image = image.resize((32,32))
     test_image = image_utils.img_to_array(test_image).astype(np.float32)
     test_image = test_image / 255.0
