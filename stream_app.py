@@ -111,15 +111,15 @@ def main():
         with st.spinner('Model is getting retrained....'):     
             epoch = 20
             #retrain_model = tf.keras.models.load_model('retrained_X_test100_79_model.h5')
-            #if not os.path.isfile('retrained_X_test100_79_model.h5'):
-            #retrain_model = urllib.request.urlretrieve('https://github.com/ankan-mazumdar/Active-Learning2/blob/main/retrained_X_test100_79_model.h5?raw=true', 'retrained_X_test100_79_model.h5')
-            #print('retrain_model=====',retrain_model)
-            #else:
-                    #print('no model.h5 for retraining found') 
+            if not os.path.isfile('retrained_X_test100_79_model.h5'):
+                retrain_model = urllib.request.urlretrieve('https://github.com/ankan-mazumdar/Active-Learning2/blob/main/retrained_X_test100_79_model.h5?raw=true', 'retrained_X_test100_79_model.h5')
+                print('retrain_model=====',retrain_model)
+            else:
+                   print('no model.h5 for retraining found') 
                     
-            import subprocess
-            if not os.path.isfile('model.h5'):
-                subprocess.run(['curl --output model.h5 "https://media.githubusercontent.com/media/ankan-mazumdar/Active-Learning2/main/retrained_X_test100_79_model.h5"'], shell=True)
+            #import subprocess
+            #if not os.path.isfile('model.h5'):
+            #    subprocess.run(['curl --output model.h5 "https://media.githubusercontent.com/media/ankan-mazumdar/Active-Learning2/main/retrained_X_test100_79_model.h5"'], shell=True)
                 
             #Replace model = tf.keras.models.load_model('sep_5.h5', compile=False) with:
             #model = tf.keras.models.load_model('model.h5', compile=False)
