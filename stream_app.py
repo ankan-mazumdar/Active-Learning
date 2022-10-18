@@ -1,3 +1,5 @@
+#https://ankan-mazumdar-active-learning2-stream-app-x98qu1.streamlitapp.com/
+#https://github.com/ankan-mazumdar/Active-Learning2
 from secrets import choice
 import requests
 import numpy as np
@@ -18,7 +20,7 @@ from keras.utils import image_utils
 from keras import models, layers,preprocessing
 from keras.layers import Conv2D, MaxPooling2D, Flatten , Dense, Activation,Dropout,BatchNormalization
 from keras.utils.vis_utils import plot_model
-
+import urllib.request 
 st.set_page_config(layout="wide")
 st.set_option ('deprecation.showfileUploaderEncoding', False)
 st.set_option('deprecation.showPyplotGlobalUse', False)
@@ -122,7 +124,8 @@ def main():
                 #Replace model = tf.keras.models.load_model('sep_5.h5', compile=False) with:
                 #model = tf.keras.models.load_model('model.h5', compile=False)
                 #Don’t delete or rename the sep_5.h5 file from your repo, as we’re using its url to download your model in Step 1        
-                retrain_model = tf.keras.models.load_model('model.h5')        
+                retrain_model = tf.keras.models.load_model('model.h5') 
+                st.write(model.h5)
                 es_callbacks=[tf.keras.callbacks.EarlyStopping(patience=6, verbose=1)]
                 opt = tf.keras.optimizers.Adam(1e-3)
                 # compile the model
@@ -162,7 +165,7 @@ def main():
         except:
             st.error("Please upload images")
 
-import urllib.request            
+           
 classifier_model = 'my_model.h5'
 if not os.path.isfile('my_model.h5'):
         classifier_model = urllib.request.urlretrieve('https://github.com/ankan-mazumdar/Active-Learning2/blob/main/my_model.h5?raw=true', 'my_model.h5')
