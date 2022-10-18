@@ -14,7 +14,6 @@ from lime import lime_image
 from skimage.segmentation import mark_boundaries
 
 import tensorflow as tf
-import tensorflow_hub as hub
 import os
 from keras.utils import image_utils
 from keras import models, layers,preprocessing
