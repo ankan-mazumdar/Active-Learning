@@ -30,9 +30,9 @@ import urllib.request
 #workaround for git LFS files 
 #https://discuss.streamlit.io/t/oserror-unable-to-open-file-from-githib/29480/4
 #https://discuss.streamlit.io/t/oserror-unable-to-open-file-file-signature-not-found/24238/5
-import subprocess
-if not os.path.isfile('model.h5'):
-    subprocess.run(['curl --output model.h5 "https://media.githubusercontent.com/media/ankan-mazumdar/Active-Learning2/main/retrained_X_test100_79_model.h5"'], shell=True)
+#import subprocess
+#if not os.path.isfile('model.h5'):
+#    subprocess.run(['curl --output model.h5 "https://media.githubusercontent.com/media/ankan-mazumdar/Active-Learning2/main/retrained_X_test100_79_model.h5"'], shell=True)
 
 st.set_page_config(layout="wide")
 st.set_option ('deprecation.showfileUploaderEncoding', False)
@@ -130,7 +130,7 @@ def main():
             #Replace model = tf.keras.models.load_model('sep_5.h5', compile=False) with:
             #model = tf.keras.models.load_model('model.h5', compile=False)
             #Don’t delete or rename the sep_5.h5 file from your repo, as we’re using its url to download your model in Step 1        
-            retrain_model = tf.keras.models.load_model('model.h5') 
+            retrain_model = tf.keras.models.load_model('model.h5', compile=False) 
             es_callbacks=[tf.keras.callbacks.EarlyStopping(patience=6, verbose=1)]
             opt = tf.keras.optimizers.Adam(1e-3)
             # compile the model
