@@ -30,6 +30,7 @@ fig = plt.figure()
 import subprocess
 if not os.path.isfile('model.h5'):
     subprocess.run(['curl --output model.h5 "https://media.githubusercontent.com/media/ankan-mazumdar/Active-Learning/main/retrained_X_test100_79_model.h5"'], shell=True)
+retrain_model = tf.keras.models.load_model('model.h5')       
 def main():
 
     img=[]
