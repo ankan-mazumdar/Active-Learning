@@ -28,9 +28,9 @@ st.text("Upload Images for classification")
 
 fig = plt.figure()
 import subprocess
-if not os.path.isfile('model.h5'):
+if not os.path.isfile('retrained_model.h5'):
     subprocess.run(['curl --output model.h5 "https://media.githubusercontent.com/media/ankan-mazumdar/Active-Learning/main/retrained_X_test100_79_model.h5"'], shell=True)
-retrain_model = tf.keras.models.load_model('model.h5')       
+retrain_model = tf.keras.models.load_model('retrained_model.h5')       
 def main():
 
     img=[]
@@ -124,8 +124,9 @@ def main():
                 
             #Replace model = tf.keras.models.load_model('sep_5.h5', compile=False) with:
             #model = tf.keras.models.load_model('model.h5', compile=False)
-            #Don’t delete or rename the sep_5.h5 file from your repo, as we’re using its url to download your model in Step 1        
-            retrain_model = tf.keras.models.load_model('model.h5')        
+            #Don’t delete or rename the sep_5.h5 file from your repo, as we’re using its url to download your model in Step 1     
+            retrain_model = tf.keras.models.load_model('retrained_model.h5') 
+            #retrain_model = tf.keras.models.load_model('model.h5')        
             es_callbacks=[tf.keras.callbacks.EarlyStopping(patience=6, verbose=1)]
             opt = tf.keras.optimizers.Adam(1e-3)
             # compile the model
