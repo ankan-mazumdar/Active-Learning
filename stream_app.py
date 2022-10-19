@@ -75,7 +75,7 @@ def main():
                 X_train_new = rsize
             else:
                 X_train_new = np.append(X_train_new, rsize, axis=0)
-    
+
         import keras
         Cifar10=keras.datasets.cifar10 # Loading the dataset
         (xtrain,ytrain),(X_test,y_test)= Cifar10.load_data()
@@ -87,12 +87,12 @@ def main():
         from sklearn.model_selection import train_test_split
         X_test, X_val, y_test, y_val = train_test_split(X_test, y_test, test_size = 0.5, random_state = 0)
         print(X_test.shape,X_val.shape,y_test.shape,y_val.shape )
-    
+
         def normalize(x):
             x = x.astype('float32')
             x = x/255.0
             return x 
-    
+
         X_train_new = normalize(X_train_new)
         X_test = normalize(X_test)
         X_val = normalize(X_val) 
@@ -105,7 +105,7 @@ def main():
         print("y_train_new Shape: %s and value: %s" % (y_train_new.shape, y_train_new[0]))
         print("y_test Shape: %s and value: %s" % (y_test.shape, y_test[0]))
         print("y_val Shape: %s and value: %s" % (y_val.shape, y_val[0]))
-    
+
         with st.spinner('Model is getting retrained....'):     
             epoch = 20
             #retrain_model = tf.keras.models.load_model('retrained_X_test100_79_model.h5')
@@ -122,7 +122,7 @@ def main():
             #Replace model = tf.keras.models.load_model('sep_5.h5', compile=False) with:
             #model = tf.keras.models.load_model('model.h5', compile=False)
             #Don’t delete or rename the sep_5.h5 file from your repo, as we’re using its url to download your model in Step 1        
-                retrain_model = tf.keras.models.load_model('model.h5')        
+            retrain_model = tf.keras.models.load_model('model.h5')        
             es_callbacks=[tf.keras.callbacks.EarlyStopping(patience=6, verbose=1)]
             opt = tf.keras.optimizers.Adam(1e-3)
             # compile the model
@@ -132,11 +132,11 @@ def main():
             loss, acc = retrain_model.evaluate(X_train_new, y_train_new, verbose=1)
             print('Restored model, accuracy: {:5.2f}%'.format(100 * acc))
             retrain_model.save('retrained_Streamlit_model.h5') 
-    
-    
+
+
         for uploaded_file in uploaded_files: 
             image = Image.open(uploaded_file)
-    
+
             with st.spinner('Interpretating retrained model....'):        
                     interpretation2 = interpret2(image)
                     time.sleep(1)
@@ -172,8 +172,8 @@ model = tf.keras.models.load_model(classifier_model)
 #Workaround step for retrained_Streamlit_model.h5
 if not os.path.isfile('retrained_Streamlit_model.h5'):
         retrain_model = urllib.request.urlretrieve('https://github.com/ankan-mazumdar/Active-Learning2/blob/main/retrained_X_test100_79_model.h5?raw=true', 'retrained_Streamlit_model.h5')
-#else:
-#        retrain_model = tf.keras.models.load_model('retrained_Streamlit_model.h5')     
+else:
+        retrain_model = tf.keras.models.load_model('retrained_Streamlit_model.h5')     
 def predict_retrain(image):
  
     retrain_model = tf.keras.models.load_model('retrained_Streamlit_model.h5')
