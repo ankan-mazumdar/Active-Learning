@@ -29,7 +29,7 @@ st.text("Upload Images for classification")
 fig = plt.figure()
 import subprocess
 if not os.path.isfile('model.h5'):
-    subprocess.run(['curl --output model.h5 "https://media.githubusercontent.com/media/ankan-mazumdar/Active-Learning2/main/retrained_X_test100_79_model.h5"'], shell=True)
+    subprocess.run(['curl --output model.h5 "https://media.githubusercontent.com/media/ankan-mazumdar/Active-Learning/main/retrained_X_test100_79_model.h5"'], shell=True)
 def main():
 
     img=[]
