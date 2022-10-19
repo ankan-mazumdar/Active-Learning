@@ -67,100 +67,100 @@ def main():
                         labels.append(j)
         y_train_new = np.asarray(labels)
 
-        try:
-            rsize  = np.asarray(image.resize((32,32))).astype(np.float32)
-            rsize= np.expand_dims(rsize,axis =0) # Use PIL to resize # Use PIL to resize     
-            for i in range(0,len(uploaded_files)):
-                if i == 0:
-                    X_train_new = rsize
-                else:
-                    X_train_new = np.append(X_train_new, rsize, axis=0)
-    
-            import keras
-            Cifar10=keras.datasets.cifar10 # Loading the dataset
-            (xtrain,ytrain),(X_test,y_test)= Cifar10.load_data()
-            print(xtrain.shape)
-            print(ytrain.shape)
-            print(X_test.shape)
-            print(y_test.shape)
-            # @st.cache(allow_output_mutation=True)
-            from sklearn.model_selection import train_test_split
-            X_test, X_val, y_test, y_val = train_test_split(X_test, y_test, test_size = 0.5, random_state = 0)
-            print(X_test.shape,X_val.shape,y_test.shape,y_val.shape )
-    
-            def normalize(x):
-                x = x.astype('float32')
-                x = x/255.0
-                return x 
-    
-            X_train_new = normalize(X_train_new)
-            X_test = normalize(X_test)
-            X_val = normalize(X_val) 
-            # print(y_train_new.shape, y_train_new[0]))
-            from tensorflow.keras.utils import to_categorical
-            y_train_new =to_categorical(y_train_new , 10)
-            y_test = to_categorical(y_test , 10)
-            y_val  = to_categorical(y_val , 10)
-            print((X_train_new.shape, X_test.shape,X_val.shape))
-            print("y_train_new Shape: %s and value: %s" % (y_train_new.shape, y_train_new[0]))
-            print("y_test Shape: %s and value: %s" % (y_test.shape, y_test[0]))
-            print("y_val Shape: %s and value: %s" % (y_val.shape, y_val[0]))
-    
-            with st.spinner('Model is getting retrained....'):     
-                epoch = 20
-                #retrain_model = tf.keras.models.load_model('retrained_X_test100_79_model.h5')
-                #if not os.path.isfile('retrained_X_test100_79_model.h5'):
-                #retrain_model = urllib.request.urlretrieve('https://github.com/ankan-mazumdar/Active-Learning2/blob/main/retrained_X_test100_79_model.h5?raw=true', 'retrained_X_test100_79_model.h5')
-                #print('retrain_model=====',retrain_model)
-                #else:
-                        #print('no model.h5 for retraining found') 
-                        
-                import subprocess
-                if not os.path.isfile('model.h5'):
-                    subprocess.run(['curl --output model.h5 "https://media.githubusercontent.com/media/ankan-mazumdar/Active-Learning2/main/retrained_X_test100_79_model.h5"'], shell=True)
-                    
-                #Replace model = tf.keras.models.load_model('sep_5.h5', compile=False) with:
-                #model = tf.keras.models.load_model('model.h5', compile=False)
-                #Don’t delete or rename the sep_5.h5 file from your repo, as we’re using its url to download your model in Step 1        
-                    retrain_model = tf.keras.models.load_model('model.h5')        
-                es_callbacks=[tf.keras.callbacks.EarlyStopping(patience=6, verbose=1)]
-                opt = tf.keras.optimizers.Adam(1e-3)
-                # compile the model
-                retrain_model.compile(optimizer=opt, loss='categorical_crossentropy', metrics=['accuracy'])
-                # r = retrain_model.fit(datagen.flow(X_train_new , y_train_new , batch_size = 32), epochs = epoch , validation_data = (X_val , y_val), verbose = True, callbacks=[cp_callback])
-                r = retrain_model.fit(X_train_new, y_train_new, epochs= epoch, batch_size=32, validation_data = (X_val , y_val), verbose = True,callbacks=[es_callbacks])
-                loss, acc = retrain_model.evaluate(X_train_new, y_train_new, verbose=1)
-                print('Restored model, accuracy: {:5.2f}%'.format(100 * acc))
-                retrain_model.save('retrained_Streamlit_model.h5') 
-    
-    
-            for uploaded_file in uploaded_files: 
-                image = Image.open(uploaded_file)
-    
-                with st.spinner('Interpretating retrained model....'):        
-                        interpretation2 = interpret2(image)
-                        time.sleep(1)
-                        st.pyplot(interpretation2)        
-                with st.spinner('retrained model predicting....'):
-                        # plt.imshow(image)
-                        plt.axis("off")
-                        predictions = predict_retrain(image)
-                        time.sleep(1)
-                        st.success('Reclassification completed')
-                        st.write(predictions)   
-            model.compile(optimizer=opt, loss='categorical_crossentropy', metrics=['accuracy'])            
-            loss_b, acc_b= model.evaluate(X_train_new, y_train_new, verbose=1)
-            print('base model, accuracy: {:5.2f}%'.format(100 * acc_b))
-            if acc > acc_b:
-                st.write("accuracy has improved after model retrain, replacing old model by new retrained model")     
-                classifier_model= retrain_model  
+        #try:
+        rsize  = np.asarray(image.resize((32,32))).astype(np.float32)
+        rsize= np.expand_dims(rsize,axis =0) # Use PIL to resize # Use PIL to resize     
+        for i in range(0,len(uploaded_files)):
+            if i == 0:
+                X_train_new = rsize
             else:
-                st.write("accuracy has not improved after model retrain,retaining the same model")     
-                # classifier_model= model                
-                #with open(os.path.join('files/downloaded_images/',uploaded_file.name),"wb") as f: 
-                #    f.write(uploaded_file.getbuffer()) 
-        except:
-            st.error("Please upload images")
+                X_train_new = np.append(X_train_new, rsize, axis=0)
+    
+        import keras
+        Cifar10=keras.datasets.cifar10 # Loading the dataset
+        (xtrain,ytrain),(X_test,y_test)= Cifar10.load_data()
+        print(xtrain.shape)
+        print(ytrain.shape)
+        print(X_test.shape)
+        print(y_test.shape)
+        # @st.cache(allow_output_mutation=True)
+        from sklearn.model_selection import train_test_split
+        X_test, X_val, y_test, y_val = train_test_split(X_test, y_test, test_size = 0.5, random_state = 0)
+        print(X_test.shape,X_val.shape,y_test.shape,y_val.shape )
+    
+        def normalize(x):
+            x = x.astype('float32')
+            x = x/255.0
+            return x 
+    
+        X_train_new = normalize(X_train_new)
+        X_test = normalize(X_test)
+        X_val = normalize(X_val) 
+        # print(y_train_new.shape, y_train_new[0]))
+        from tensorflow.keras.utils import to_categorical
+        y_train_new =to_categorical(y_train_new , 10)
+        y_test = to_categorical(y_test , 10)
+        y_val  = to_categorical(y_val , 10)
+        print((X_train_new.shape, X_test.shape,X_val.shape))
+        print("y_train_new Shape: %s and value: %s" % (y_train_new.shape, y_train_new[0]))
+        print("y_test Shape: %s and value: %s" % (y_test.shape, y_test[0]))
+        print("y_val Shape: %s and value: %s" % (y_val.shape, y_val[0]))
+    
+        with st.spinner('Model is getting retrained....'):     
+            epoch = 20
+            #retrain_model = tf.keras.models.load_model('retrained_X_test100_79_model.h5')
+            #if not os.path.isfile('retrained_X_test100_79_model.h5'):
+            #retrain_model = urllib.request.urlretrieve('https://github.com/ankan-mazumdar/Active-Learning2/blob/main/retrained_X_test100_79_model.h5?raw=true', 'retrained_X_test100_79_model.h5')
+            #print('retrain_model=====',retrain_model)
+            #else:
+                    #print('no model.h5 for retraining found') 
+                    
+            import subprocess
+            if not os.path.isfile('model.h5'):
+                subprocess.run(['curl --output model.h5 "https://media.githubusercontent.com/media/ankan-mazumdar/Active-Learning2/main/retrained_X_test100_79_model.h5"'], shell=True)
+                
+            #Replace model = tf.keras.models.load_model('sep_5.h5', compile=False) with:
+            #model = tf.keras.models.load_model('model.h5', compile=False)
+            #Don’t delete or rename the sep_5.h5 file from your repo, as we’re using its url to download your model in Step 1        
+                retrain_model = tf.keras.models.load_model('model.h5')        
+            es_callbacks=[tf.keras.callbacks.EarlyStopping(patience=6, verbose=1)]
+            opt = tf.keras.optimizers.Adam(1e-3)
+            # compile the model
+            retrain_model.compile(optimizer=opt, loss='categorical_crossentropy', metrics=['accuracy'])
+            # r = retrain_model.fit(datagen.flow(X_train_new , y_train_new , batch_size = 32), epochs = epoch , validation_data = (X_val , y_val), verbose = True, callbacks=[cp_callback])
+            r = retrain_model.fit(X_train_new, y_train_new, epochs= epoch, batch_size=32, validation_data = (X_val , y_val), verbose = True,callbacks=[es_callbacks])
+            loss, acc = retrain_model.evaluate(X_train_new, y_train_new, verbose=1)
+            print('Restored model, accuracy: {:5.2f}%'.format(100 * acc))
+            retrain_model.save('retrained_Streamlit_model.h5') 
+    
+    
+        for uploaded_file in uploaded_files: 
+            image = Image.open(uploaded_file)
+    
+            with st.spinner('Interpretating retrained model....'):        
+                    interpretation2 = interpret2(image)
+                    time.sleep(1)
+                    st.pyplot(interpretation2)        
+            with st.spinner('retrained model predicting....'):
+                    # plt.imshow(image)
+                    plt.axis("off")
+                    predictions = predict_retrain(image)
+                    time.sleep(1)
+                    st.success('Reclassification completed')
+                    st.write(predictions)   
+        model.compile(optimizer=opt, loss='categorical_crossentropy', metrics=['accuracy'])            
+        loss_b, acc_b= model.evaluate(X_train_new, y_train_new, verbose=1)
+        print('base model, accuracy: {:5.2f}%'.format(100 * acc_b))
+        if acc > acc_b:
+            st.write("accuracy has improved after model retrain, replacing old model by new retrained model")     
+            classifier_model= retrain_model  
+        else:
+            st.write("accuracy has not improved after model retrain,retaining the same model")     
+            # classifier_model= model                
+            #with open(os.path.join('files/downloaded_images/',uploaded_file.name),"wb") as f: 
+            #    f.write(uploaded_file.getbuffer()) 
+        #except:
+        #    st.error("Please upload images")
 
 import urllib.request            
 classifier_model = 'my_model.h5'
