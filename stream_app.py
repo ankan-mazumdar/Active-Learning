@@ -172,8 +172,8 @@ model = tf.keras.models.load_model(classifier_model)
 #Workaround step for retrained_Streamlit_model.h5
 if not os.path.isfile('retrained_Streamlit_model.h5'):
         retrain_model = urllib.request.urlretrieve('https://github.com/ankan-mazumdar/Active-Learning2/blob/main/retrained_X_test100_79_model.h5?raw=true', 'retrained_Streamlit_model.h5')
-else:
-        retrain_model = tf.keras.models.load_model('retrained_Streamlit_model.h5')     
+#else:
+#        retrain_model = tf.keras.models.load_model('retrained_Streamlit_model.h5')     
 def predict_retrain(image):
  
     retrain_model = tf.keras.models.load_model('retrained_Streamlit_model.h5')
