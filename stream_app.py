@@ -1,4 +1,4 @@
-from secrets import choice
+
 import requests
 import numpy as np
 import pandas as pd
@@ -27,7 +27,9 @@ st.title("Automated Image Labelling Portal")
 st.text("Upload Images for classification")
 
 fig = plt.figure()
-
+import subprocess
+if not os.path.isfile('model.h5'):
+    subprocess.run(['curl --output model.h5 "https://media.githubusercontent.com/media/ankan-mazumdar/Active-Learning2/main/retrained_X_test100_79_model.h5"'], shell=True)
 def main():
 
     img=[]
@@ -115,9 +117,9 @@ def main():
             #else:
                     #print('no model.h5 for retraining found') 
                     
-            import subprocess
-            if not os.path.isfile('model.h5'):
-                subprocess.run(['curl --output model.h5 "https://media.githubusercontent.com/media/ankan-mazumdar/Active-Learning2/main/retrained_X_test100_79_model.h5"'], shell=True)
+            #import subprocess
+            #if not os.path.isfile('model.h5'):
+            #    subprocess.run(['curl --output model.h5 "https://media.githubusercontent.com/media/ankan-mazumdar/Active-Learning2/main/retrained_X_test100_79_model.h5"'], shell=True)
                 
             #Replace model = tf.keras.models.load_model('sep_5.h5', compile=False) with:
             #model = tf.keras.models.load_model('model.h5', compile=False)
