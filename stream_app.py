@@ -25,12 +25,18 @@ st.set_option('deprecation.showPyplotGlobalUse', False)
 plt.ion()
 st.title("Automated Image Labelling Portal")
 st.text("Upload Images for classification")
-
 fig = plt.figure()
+
+import urllib.request            
+classifier_model = 'my_model.h5'
+if not os.path.isfile('my_model.h5'):
+        classifier_model = urllib.request.urlretrieve('https://github.com/ankan-mazumdar/Active-Learning/blob/main/my_model.h5?raw=true', 'my_model.h5')
+model = tf.keras.models.load_model(classifier_model)
+
 import subprocess
 if not os.path.isfile('retrained_model.h5'):
     subprocess.run(['curl --output retrained_model.h5 "https://media.githubusercontent.com/media/ankan-mazumdar/Active-Learning/main/retrained_X_test100_79_model.h5"'], shell=True)
-retrain_model = tf.keras.models.load_model('retrained_model.h5')       
+     
 def main():
 
     img=[]
@@ -166,12 +172,9 @@ def main():
         #except:
         #    st.error("Please upload images")
 
-import urllib.request            
-classifier_model = 'my_model.h5'
-if not os.path.isfile('my_model.h5'):
-        classifier_model = urllib.request.urlretrieve('https://github.com/ankan-mazumdar/Active-Learning2/blob/main/my_model.h5?raw=true', 'my_model.h5')
+
 # model = models.load_model(classifier_model, compile=False, custom_objects={'KerasLayer': hub.KerasLayer})
-model = tf.keras.models.load_model(classifier_model)
+
 
 #Workaround step for retrained_Streamlit_model.h5
 #if not os.path.isfile('retrained_Streamlit_model.h5'):
