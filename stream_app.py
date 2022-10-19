@@ -130,9 +130,9 @@ def main():
             #model = tf.keras.models.load_model('model.h5', compile=False)
             #Don’t delete or rename the sep_5.h5 file from your repo, as we’re using its url to download your model in Step 1 
             import subprocess
-            if not os.path.isfile('retrained_model1.h5'):
-                subprocess.run(['curl --output retrained_model1.h5 "https://media.githubusercontent.com/media/ankan-mazumdar/Active-Learning/main/retrained_X_test100_79_model.h5"'], shell=True)
-            retrain_model = tf.keras.models.load_model('retrained_model1.h5') 
+            if not os.path.isfile('retrained_model2.h5'):
+                subprocess.run(['curl --output retrained_model2.h5 "https://media.githubusercontent.com/media/ankan-mazumdar/Active-Learning/main/retrained_X_test100_79_model.h5"'], shell=True)
+            retrain_model = tf.keras.models.load_model('retrained_model2.h5') 
             #retrain_model = tf.keras.models.load_model('model.h5')        
             es_callbacks=[tf.keras.callbacks.EarlyStopping(patience=6, verbose=1)]
             opt = tf.keras.optimizers.Adam(1e-3)
@@ -178,10 +178,12 @@ def main():
 
 
 #Workaround step for retrained_Streamlit_model.h5
-#if not os.path.isfile('retrained_Streamlit_model.h5'):
-#        retrain_model = urllib.request.urlretrieve('https://github.com/ankan-mazumdar/Active-Learning2/blob/main/retrained_X_test100_79_model.h5?raw=true', 'retrained_Streamlit_model.h5')
-#else:
-#        retrain_model = tf.keras.models.load_model('retrained_Streamlit_model.h5')     
+if not os.path.isfile('retrained_Streamlit_model.h5'):
+        retrain_model = urllib.request.urlretrieve('https://github.com/ankan-mazumdar/Active-Learning/blob/main/retrained_X_test100_79_model.h5?raw=true', 'retrained_Streamlit_model.h5')
+        print('running retrained_Streamlit_model.h5')
+else:
+        retrain_model = tf.keras.models.load_model('retrained_model2.h5')  
+        print('SORRRRRRRRRRRRRRRRRY , unable to fetch retrained streamlit model, hence running untrained model')
 def predict_retrain(image):
  
     retrain_model = tf.keras.models.load_model('retrained_Streamlit_model.h5')
