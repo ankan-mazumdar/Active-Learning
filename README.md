@@ -5,3 +5,10 @@ NOTE- the model is currently trained inly on CIFAR 10 image dataset, please uplo
 
 ![image](https://user-images.githubusercontent.com/69012134/210345143-11c9fab9-f3b9-4e31-98e6-d0b0d17328f6.png)
 
+![image](https://user-images.githubusercontent.com/69012134/210365481-3ed75d43-75aa-4959-ba6e-002d308fb143.png)
+
+![image](https://user-images.githubusercontent.com/69012134/210365590-72c11550-4708-4db5-aadc-2cca9ada3e07.png)
+
+![image](https://user-images.githubusercontent.com/69012134/210365642-a514f911-a0e4-4612-b34d-5e708e4f0af9.png)
+
+
