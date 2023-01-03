@@ -14,3 +14,4 @@ Here, as HORSE is incorrectly predicted as CAT, user is manually submitting the 
 ![image](https://user-images.githubusercontent.com/69012134/210365642-a514f911-a0e4-4612-b34d-5e708e4f0af9.png)
 
 
+The model can be retrained further with more number of iterations to increase the prediction accuracy.
