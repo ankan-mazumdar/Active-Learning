@@ -7,6 +7,8 @@ NOTE- the model is currently trained inly on CIFAR 10 image dataset, please uplo
 
 ![image](https://user-images.githubusercontent.com/69012134/210365481-3ed75d43-75aa-4959-ba6e-002d308fb143.png)
 
+Here, as HORSE is incorrectly predicted as CAT, user is manually submitting the label as HORSE from dropdown as then retraining it
+
 ![image](https://user-images.githubusercontent.com/69012134/210365590-72c11550-4708-4db5-aadc-2cca9ada3e07.png)
 
 ![image](https://user-images.githubusercontent.com/69012134/210365642-a514f911-a0e4-4612-b34d-5e708e4f0af9.png)
