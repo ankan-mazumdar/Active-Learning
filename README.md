@@ -1,4 +1,4 @@
-demonstrating an API which will labels Images with existing model and can be retrained to enhance the prediction accuracy in UI itself. The portal uses Active Learning & transfer learning techniques
+Demonstrating an Web based API which will label images with existing model and can be retrained to enhance the prediction accuracy in UI itself. The portal uses Active Learning & transfer learning techniques
 Please check out the app at this link- https://ankan-mazumdar-active-learning-stream-app-kbbcqv.streamlit.app/
 
 NOTE- the model is currently trained inly on CIFAR 10 image dataset, please upload any CIFAR 10 image only. Please follow the below flowchart to get desired predictions-
